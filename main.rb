@@ -11,7 +11,7 @@ loop do
   # create zun or doko
   zd = zundoko[rand 2]
   print zd, " "
-  sleep 1
+  sleep 0.3
 
   # judge
   case zd
