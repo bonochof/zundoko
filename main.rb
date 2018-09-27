@@ -1,4 +1,8 @@
+#
 # Let's begin "Zun Doko Kiyoshi" !
+#
+# ズン ズン ズン ズン ドコ キ!ヨ!シ!
+#
 
 # zun doko
 zun, doko = zundoko = ["ズン", "ドコ"]
