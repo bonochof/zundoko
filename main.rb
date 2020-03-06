@@ -48,12 +48,12 @@ Window.load_resources do
 
     if !endflag
       # create zun or doko or kiyoshi
+      str << '' if all % 11 == 0
       if kiyoshi
         zd = nil
         str[all / 11] += 'キヨシ！'
       else
         zd = zundoko[rand 2]
-        str << '' if all % 11 == 0
         str[all / 11] += zd + ' '
         all += 1
       end
