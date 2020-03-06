@@ -20,63 +20,70 @@ Window.load_resources do
   loop_count = 0
   str = []
   kiyoshi = false
-  endflag = false
+  stop = true
   zd = nil
 
   # main loop
   Window.loop do
-    if !endflag and loop_count == 0
-      # create zun or doko or kiyoshi
-      str << '' if all % 11 == 0
-      if kiyoshi
-        zd = nil
-        str[all / 11] += 'キヨシ！'
-      else
-        zd = zundoko[rand 2]
-        str[all / 11] += zd + ' '
-        all += 1
-      end
-
-      # count zun doko
-      case zd
-      when zun
-        count += 1
-      when doko
-        kiyoshi = true if count >= 4
+    if stop
+      Window.draw_font(250, 400, 'Push to Start', Font.default, color: C_WHITE)
+      if Input.mouse_push?(M_LBUTTON)
+        str = []
+        all = 0
         count = 0
-      end
-
-      # display log
-      str.each_with_index do |s, i|
-        Window.draw_font(0, i * 40, s, Font.default, color: C_WHITE)
-      end
-
-      # SE
-      if zd == zun
-        if count == 1
-          Sound[:zun1].play
-        elsif count == 2
-          Sound[:zun2].play
-        elsif count == 3
-          Sound[:zun3].play
-        elsif count == 4
-          Sound[:zun4].play
-        else
-          Sound[:zun1].play
-        end
-      elsif zd == doko
-        Sound[:doko].play
-      else
-        Sound[:kiyoshi].play
-        endflag = true
+        kiyoshi = false
+        stop = false
       end
     else
-      str.each_with_index do |s, i|
-        Window.draw_font(0, i * 40, s, Font.default, color: C_WHITE)
+      if loop_count == 0
+        # create zun or doko or kiyoshi
+        str << '' if all % 11 == 0
+        if kiyoshi
+          zd = nil
+          str[all / 11] += 'キヨシ！'
+        else
+          zd = zundoko[rand 2]
+          str[all / 11] += zd + ' '
+          all += 1
+        end
+
+        # count zun doko
+        case zd
+        when zun
+          count += 1
+        when doko
+          kiyoshi = true if count >= 4
+          count = 0
+        end
+
+        # SE
+        if zd == zun
+          if count == 1
+            Sound[:zun1].play
+          elsif count == 2
+            Sound[:zun2].play
+          elsif count == 3
+            Sound[:zun3].play
+          elsif count == 4
+            Sound[:zun4].play
+          else
+            Sound[:zun1].play
+          end
+        elsif zd == doko
+          Sound[:doko].play
+        else
+          Sound[:kiyoshi].play
+          stop = true
+        end
       end
+
+      loop_count += 1
+      loop_count %= 60
     end
 
-    loop_count += 1
-    loop_count %= 60
+    # display log
+    str.each_with_index do |s, i|
+      Window.draw_font(0, i * 40, s, Font.default, color: C_WHITE)
+    end
   end
 end
