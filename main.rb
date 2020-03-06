@@ -27,7 +27,7 @@ Window.load_resources do
   Window.loop do
     if stop
       Window.draw_font(250, 400, 'Push to Start', Font.default, color: C_WHITE)
-      if Input.mouse_push?(M_LBUTTON)
+      if Input.mouse_push?(M_LBUTTON) or Input.touch_push?
         str = []
         all = 0
         count = 0
