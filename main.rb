@@ -17,6 +17,7 @@ Window.load_resources do
   # zun counter
   count = 0
   all = 0
+  loop_count = 0
   str = []
   kiyoshi = false
   endflag = false
@@ -24,29 +25,7 @@ Window.load_resources do
 
   # main loop
   Window.loop do
-    # SE
-    if all > 0 and !endflag
-      if zd == zun
-        if count == 1
-          Sound[:zun1].play
-        elsif count == 2
-          Sound[:zun2].play
-        elsif count == 3
-          Sound[:zun3].play
-        elsif count == 4
-          Sound[:zun4].play
-        else
-          Sound[:zun1].play
-        end
-      elsif zd == doko
-        Sound[:doko].play
-      else
-        Sound[:kiyoshi].play
-        endflag = true
-      end
-    end
-
-    if !endflag
+    if !endflag and loop_count == 0
       # create zun or doko or kiyoshi
       str << '' if all % 11 == 0
       if kiyoshi
@@ -72,12 +51,32 @@ Window.load_resources do
         Window.draw_font(0, i * 40, s, Font.default, color: C_WHITE)
       end
 
-      # wait 1 sec
-      sleep 0.8
+      # SE
+      if zd == zun
+        if count == 1
+          Sound[:zun1].play
+        elsif count == 2
+          Sound[:zun2].play
+        elsif count == 3
+          Sound[:zun3].play
+        elsif count == 4
+          Sound[:zun4].play
+        else
+          Sound[:zun1].play
+        end
+      elsif zd == doko
+        Sound[:doko].play
+      else
+        Sound[:kiyoshi].play
+        endflag = true
+      end
     else
       str.each_with_index do |s, i|
         Window.draw_font(0, i * 40, s, Font.default, color: C_WHITE)
       end
     end
+
+    loop_count += 1
+    loop_count %= 60
   end
 end
